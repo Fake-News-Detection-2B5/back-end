@@ -1,0 +1,10 @@
+Main module function calls demo
+
+Post = requestPostFromIngestion();
+
+if (!isPostChecked()) {
+      Post = sendToAI(Post);
+      sendScoreToIngestionDatabase();
+}
+
+sendPostToFrontEnd(Post);
