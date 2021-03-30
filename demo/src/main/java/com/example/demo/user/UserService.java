@@ -29,10 +29,7 @@ public class UserService {
     }
 
     public boolean registerUser(CUser user) {
-        checkUsername(user.getName());
-        checkPassword(user.getPassword());
-
-        if (getErrorCode() != ErrorCode.NO_ERRORS) {
+        if (!checkUserCredentials(user)) {
             return false;
         }
 
@@ -43,6 +40,7 @@ public class UserService {
             userRepository.save(user);
             return true;
         }
+
         return false;
     }
 
@@ -60,11 +58,31 @@ public class UserService {
 
     public boolean updateUser(Long id, CUser user) {
         if (userRepository.findById(id).isPresent()) {
+
+            if (!checkUserCredentials(user)) {
+                return false;
+            }
+
             user.setId(id);
             userRepository.save(user);
             return true;
         }
+
         return false;
+    }
+
+    private boolean checkUserCredentials(CUser user) {
+        checkUsername(user.getName());
+        if (getErrorCode() != ErrorCode.NO_ERRORS) {
+            return false;
+        }
+
+        checkPassword(user.getPassword());
+        if (getErrorCode() != ErrorCode.NO_ERRORS) {
+            return false;
+        }
+
+        return true;
     }
 
     /**

@@ -36,16 +36,14 @@ class UserControllerTest {
 
         Mockito.when(userService.getUsers()).thenReturn(users);
 
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.get(
-                "/api/v1/users").accept(
-                MediaType.APPLICATION_JSON);
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/v1/users")
+                .accept(MediaType.APPLICATION_JSON);
 
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         Mockito.verify(userService, Mockito.times(1)).getUsers();
 
         String expected = "[{\"id\":1,\"name\":\"username1\",\"password\":\"password1\"}]";
-        JSONAssert.assertEquals(expected, result.getResponse()
-                .getContentAsString(), false);
+        JSONAssert.assertEquals(expected, result.getResponse().getContentAsString(), false);
     }
 
     @Test
@@ -54,16 +52,14 @@ class UserControllerTest {
 
         Mockito.when(userService.getUserById(Mockito.anyLong())).thenReturn(user1);
 
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.get(
-                "/api/v1/users/1").accept(
-                MediaType.APPLICATION_JSON);
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/v1/users/1")
+                .accept(MediaType.APPLICATION_JSON);
 
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         Mockito.verify(userService, Mockito.times(1)).getUserById(1L);
 
         String expected = "{\"id\":1,\"name\":\"username1\",\"password\":\"password1\"}";
-        JSONAssert.assertEquals(expected, result.getResponse()
-                .getContentAsString(), false);
+        JSONAssert.assertEquals(expected, result.getResponse().getContentAsString(), false);
     }
 
     @Test
@@ -73,9 +69,9 @@ class UserControllerTest {
 
         Mockito.when(userService.registerUser(Mockito.any(CUser.class))).thenReturn(true);
 
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.post(
-                "/api/v1/users").content(user1JSON)
-                .contentType(MediaType.APPLICATION_JSON);
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/api/v1/users")
+                .content(user1JSON).contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.TEXT_PLAIN_VALUE);
 
         mockMvc.perform(requestBuilder);
         Mockito.verify(userService, Mockito.times(1)).registerUser(user1);
@@ -85,7 +81,8 @@ class UserControllerTest {
     void deleteUser() throws Exception {
         Mockito.when(userService.deleteUser(Mockito.anyLong())).thenReturn(true);
 
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/api/v1/users/1");
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/api/v1/users/1")
+                .accept(MediaType.TEXT_PLAIN_VALUE);
 
         mockMvc.perform(requestBuilder);
         Mockito.verify(userService, Mockito.times(1)).deleteUser(1L);
@@ -98,9 +95,9 @@ class UserControllerTest {
 
         Mockito.when(userService.updateUser(Mockito.anyLong(), Mockito.any(CUser.class))).thenReturn(true);
 
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.put(
-                "/api/v1/users/1").content(user1JSON)
-                .contentType(MediaType.APPLICATION_JSON);
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.put("/api/v1/users/1")
+                .content(user1JSON).contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.TEXT_HTML_VALUE);
 
         mockMvc.perform(requestBuilder);
         Mockito.verify(userService, Mockito.times(1)).updateUser(1L, user1);
