@@ -10,10 +10,18 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+    enum ErrorCode {
+        NOT_INIT,
+        USERNAME_NOT_LONG_ENOUGH, USERNAME_NOT_MATCH_REGEX,
+        PASSWORD_NO_LOWERCASE_LETTER, PASSWORD_NO_UPPERCASE_LETTER, PASSWORD_NO_NUMBER, PASSWORD_NO_SPECIAL_CHARACTER, PASSWORD_INVALID_CHARACTER, PASSWORD_NOT_LONG_ENOUGH,
+        NO_ERRORS
+    }
+    private ErrorCode errorCode;
 
     @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
+        errorCode = ErrorCode.NOT_INIT;
     }
 
     public List<CUser> getUsers() {
@@ -21,7 +29,10 @@ public class UserService {
     }
 
     public boolean registerUser(CUser user) {
-        if (checkUsername(user.getName()) != 30 && checkPassword(user.getPassword()) != 30) {
+        checkUsername(user.getName());
+        checkPassword(user.getPassword());
+
+        if (getErrorCode() != ErrorCode.NO_ERRORS) {
             return false;
         }
 
@@ -60,19 +71,19 @@ public class UserService {
      * Private function that checks whether or not a given username corresponds to the following rules:
      * - must have at least 6 characters
      * - all characters must be either letters (uppercase or lowercase), numbers or special characters from the set {'.', '-', '_'}
+     * When a rule is broken, the error code variable will be set. The rules are in order (first rule to not be respected sets the code).
      * @param username the username to be checked
-     * @return on return, the following codes are possible
-     * - 15 : the username does not have the minimum length
-     * - 21 : the username does not match the Regex
-     * - 30 : the username is OK
-     * The codes are in order. First rule to be broken returns the associated code.
      */
-    private int checkUsername(String username) {
-        if (username.length() < 6)
-            return 15;
-        if (!username.matches("[a-zA-Z0-9._-]+"))
-            return 21;
-        return 30;
+    private void checkUsername(String username) {
+        if (username.length() < 6) {
+            setErrorCode(ErrorCode.USERNAME_NOT_LONG_ENOUGH);
+            return;
+        }
+        if (!username.matches("[a-zA-Z0-9._-]+")) {
+            setErrorCode(ErrorCode.USERNAME_NOT_MATCH_REGEX);
+            return;
+        }
+        setErrorCode(ErrorCode.NO_ERRORS);
     }
 
     /**
@@ -83,17 +94,10 @@ public class UserService {
      * - must have at least a number
      * - must have at least a special character from the following set {'-', '_', '+', '='}
      * - must be at least 6 characters long
+     * When a rule is broken, the error code variable will be set. The rules are in order (first rule to not be respected sets the code).
      * @param password the password that needs to be checked
-     * @return on return, the following codes are possible
-     * - 11 : the password does not contain a lowercase letter
-     * - 12 : the password does not contain an uppercase letter
-     * - 13 : the password does not contain a number
-     * - 14 : the password does not contain a special character
-     * - 15 : the password doest not have the minimum length
-     * - 30 : the password is OK
-     * The codes are in order (the first broken rule returns the code associated with it).
      */
-    private int checkPassword(String password) {
+    private void checkPassword(String password) {
         boolean containsLowercase = false;
         boolean containsUppercase = false;
         boolean containsNumber = false;
@@ -113,17 +117,39 @@ public class UserService {
             else if (currentChar == '-' || currentChar == '_' || currentChar == '+' || currentChar == '=') {
                 specialCharacter = true;
             }
+            else {
+                setErrorCode(ErrorCode.PASSWORD_INVALID_CHARACTER);
+                return;
+            }
         }
-        if (!containsLowercase)
-            return 11;
-        if (!containsUppercase)
-            return 12;
-        if (!containsNumber)
-            return 13;
-        if (!specialCharacter)
-            return 14;
-        if (password.length() < 6)
-            return 15;
-        return 30;
+        if (!containsLowercase) {
+            setErrorCode(ErrorCode.PASSWORD_NO_LOWERCASE_LETTER);
+            return;
+        }
+        if (!containsUppercase) {
+            setErrorCode(ErrorCode.PASSWORD_NO_UPPERCASE_LETTER);
+            return;
+        }
+        if (!containsNumber) {
+            setErrorCode(ErrorCode.PASSWORD_NO_NUMBER);
+            return;
+        }
+        if (!specialCharacter) {
+            setErrorCode(ErrorCode.PASSWORD_NO_SPECIAL_CHARACTER);
+            return;
+        }
+        if (password.length() < 6) {
+            setErrorCode(ErrorCode.PASSWORD_NOT_LONG_ENOUGH);
+            return;
+        }
+        setErrorCode(ErrorCode.NO_ERRORS);
+    }
+
+    public ErrorCode getErrorCode() {
+        return errorCode;
+    }
+
+    private void setErrorCode(ErrorCode code) {
+        this.errorCode = code;
     }
 }
