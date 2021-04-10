@@ -1,5 +1,8 @@
 package com.example.demo.user;
 
+import com.example.demo.controllers.UserController;
+import com.example.demo.entities.CUser;
+import com.example.demo.services.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;

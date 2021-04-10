@@ -1,5 +1,9 @@
 package com.example.demo.user;
 
+import com.example.demo.entities.CUser;
+import com.example.demo.repositories.UserRepository;
+import com.example.demo.services.UserService;
+import com.example.demo.utilities.ErrorCode;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,6 +13,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+
 
 import java.util.List;
 import java.util.Optional;
@@ -27,56 +33,56 @@ public class UserServiceTest {
     public void registerUser_usernameTooShort() {
         var userToRegister = new CUser(2L, "user", "password");
         Assertions.assertFalse(userService.registerUser(userToRegister));
-        Assertions.assertEquals(UserService.ErrorCode.USERNAME_NOT_LONG_ENOUGH, userService.getErrorCode());
+        Assertions.assertEquals(ErrorCode.USERNAME_NOT_LONG_ENOUGH, userService.getErrorCode());
     }
 
     @Test
     public void registerUser_usernameDoesNotMatchRegex() {
         var userToRegister = new CUser(2L, "!!!!!!!!!", "password");
         Assertions.assertFalse(userService.registerUser(userToRegister));
-        Assertions.assertEquals(UserService.ErrorCode.USERNAME_NOT_MATCH_REGEX, userService.getErrorCode());
+        Assertions.assertEquals(ErrorCode.USERNAME_NOT_MATCH_REGEX, userService.getErrorCode());
     }
 
     @Test
     public void registerUser_passwordNoLowercase() {
         var userToRegister = new CUser(2L, "username", "PASSWORD");
         Assertions.assertFalse(userService.registerUser(userToRegister));
-        Assertions.assertEquals(UserService.ErrorCode.PASSWORD_NO_LOWERCASE_LETTER, userService.getErrorCode());
+        Assertions.assertEquals(ErrorCode.PASSWORD_NO_LOWERCASE_LETTER, userService.getErrorCode());
     }
 
     @Test
     public void registerUser_passwordNoUppercase() {
         var userToRegister = new CUser(2L, "username", "password");
         Assertions.assertFalse(userService.registerUser(userToRegister));
-        Assertions.assertEquals(UserService.ErrorCode.PASSWORD_NO_UPPERCASE_LETTER, userService.getErrorCode());
+        Assertions.assertEquals(ErrorCode.PASSWORD_NO_UPPERCASE_LETTER, userService.getErrorCode());
     }
 
     @Test
     public void registerUser_passwordNoNumber() {
         var userToRegister = new CUser(2L, "username", "Password");
         Assertions.assertFalse(userService.registerUser(userToRegister));
-        Assertions.assertEquals(UserService.ErrorCode.PASSWORD_NO_NUMBER, userService.getErrorCode());
+        Assertions.assertEquals(ErrorCode.PASSWORD_NO_NUMBER, userService.getErrorCode());
     }
 
     @Test
     public void registerUser_passwordNoSpecialChar() {
         var userToRegister = new CUser(2L, "username", "Password1");
         Assertions.assertFalse(userService.registerUser(userToRegister));
-        Assertions.assertEquals(UserService.ErrorCode.PASSWORD_NO_SPECIAL_CHARACTER, userService.getErrorCode());
+        Assertions.assertEquals(ErrorCode.PASSWORD_NO_SPECIAL_CHARACTER, userService.getErrorCode());
     }
 
     @Test
     public void registerUser_passwordNotLongEnough() {
         var userToRegister = new CUser(2L, "username", "Pas1=");
         Assertions.assertFalse(userService.registerUser(userToRegister));
-        Assertions.assertEquals(UserService.ErrorCode.PASSWORD_NOT_LONG_ENOUGH, userService.getErrorCode());
+        Assertions.assertEquals(ErrorCode.PASSWORD_NOT_LONG_ENOUGH, userService.getErrorCode());
     }
 
     @Test
     public void registerUser_passwordInvalidChar() {
         var userToRegister = new CUser(2L, "username", "[[[[]]]]");
         Assertions.assertFalse(userService.registerUser(userToRegister));
-        Assertions.assertEquals(UserService.ErrorCode.PASSWORD_INVALID_CHARACTER, userService.getErrorCode());
+        Assertions.assertEquals(ErrorCode.PASSWORD_INVALID_CHARACTER, userService.getErrorCode());
     }
 
     @Test
@@ -159,7 +165,7 @@ public class UserServiceTest {
         var result = userService.updateUser(1L, updatedUser);
         Assertions.assertFalse(result);
         Mockito.verify(database, Mockito.times(1)).findById(1L);
-        Assertions.assertEquals(UserService.ErrorCode.USERNAME_NOT_LONG_ENOUGH, userService.getErrorCode());
+        Assertions.assertEquals(ErrorCode.USERNAME_NOT_LONG_ENOUGH, userService.getErrorCode());
     }
 
     @Test
@@ -172,7 +178,7 @@ public class UserServiceTest {
         var result = userService.updateUser(1L, updatedUser);
         Assertions.assertFalse(result);
         Mockito.verify(database, Mockito.times(1)).findById(1L);
-        Assertions.assertEquals(UserService.ErrorCode.USERNAME_NOT_MATCH_REGEX, userService.getErrorCode());
+        Assertions.assertEquals(ErrorCode.USERNAME_NOT_MATCH_REGEX, userService.getErrorCode());
     }
 
     @Test
@@ -185,7 +191,7 @@ public class UserServiceTest {
         var result = userService.updateUser(1L, updatedUser);
         Assertions.assertFalse(result);
         Mockito.verify(database, Mockito.times(1)).findById(1L);
-        Assertions.assertEquals(UserService.ErrorCode.PASSWORD_NO_LOWERCASE_LETTER, userService.getErrorCode());
+        Assertions.assertEquals(ErrorCode.PASSWORD_NO_LOWERCASE_LETTER, userService.getErrorCode());
     }
 
     @Test
@@ -198,7 +204,7 @@ public class UserServiceTest {
         var result = userService.updateUser(1L, updatedUser);
         Assertions.assertFalse(result);
         Mockito.verify(database, Mockito.times(1)).findById(1L);
-        Assertions.assertEquals(UserService.ErrorCode.PASSWORD_NO_UPPERCASE_LETTER, userService.getErrorCode());
+        Assertions.assertEquals(ErrorCode.PASSWORD_NO_UPPERCASE_LETTER, userService.getErrorCode());
     }
 
     @Test
@@ -211,7 +217,7 @@ public class UserServiceTest {
         var result = userService.updateUser(1L, updatedUser);
         Assertions.assertFalse(result);
         Mockito.verify(database, Mockito.times(1)).findById(1L);
-        Assertions.assertEquals(UserService.ErrorCode.PASSWORD_NO_NUMBER, userService.getErrorCode());
+        Assertions.assertEquals(ErrorCode.PASSWORD_NO_NUMBER, userService.getErrorCode());
     }
 
     @Test
@@ -224,7 +230,7 @@ public class UserServiceTest {
         var result = userService.updateUser(1L, updatedUser);
         Assertions.assertFalse(result);
         Mockito.verify(database, Mockito.times(1)).findById(1L);
-        Assertions.assertEquals(UserService.ErrorCode.PASSWORD_NO_SPECIAL_CHARACTER, userService.getErrorCode());
+        Assertions.assertEquals(ErrorCode.PASSWORD_NO_SPECIAL_CHARACTER, userService.getErrorCode());
     }
 
     @Test
@@ -237,7 +243,7 @@ public class UserServiceTest {
         var result = userService.updateUser(1L, updatedUser);
         Assertions.assertFalse(result);
         Mockito.verify(database, Mockito.times(1)).findById(1L);
-        Assertions.assertEquals(UserService.ErrorCode.PASSWORD_NOT_LONG_ENOUGH, userService.getErrorCode());
+        Assertions.assertEquals(ErrorCode.PASSWORD_NOT_LONG_ENOUGH, userService.getErrorCode());
     }
 
     @Test
@@ -250,7 +256,7 @@ public class UserServiceTest {
         var result = userService.updateUser(1L, updatedUser);
         Assertions.assertFalse(result);
         Mockito.verify(database, Mockito.times(1)).findById(1L);
-        Assertions.assertEquals(UserService.ErrorCode.PASSWORD_INVALID_CHARACTER, userService.getErrorCode());
+        Assertions.assertEquals(ErrorCode.PASSWORD_INVALID_CHARACTER, userService.getErrorCode());
     }
 
     @Test
