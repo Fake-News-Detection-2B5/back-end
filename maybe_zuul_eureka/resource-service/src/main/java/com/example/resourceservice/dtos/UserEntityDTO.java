@@ -1,17 +1,17 @@
 package com.example.resourceservice.dtos;
 
-public class UserDetailsDTO {
+public class UserEntityDTO {
     private Long id;
     private String name;
     private String password;
 
-    public UserDetailsDTO(Long id, String name, String password) {
+    public UserEntityDTO(Long id, String name, String password) {
         this.id = id;
         this.name = name;
         this.password = password;
     }
 
-    public UserDetailsDTO(String name, String password) {
+    public UserEntityDTO(String name, String password) {
         this.name = name;
         this.password = password;
     }

@@ -1,9 +1,9 @@
 package com.example.user_service.dtos;
 
 public class UserEntityDTO {
-    Long id;
-    String name;
-    String password;
+    private Long id;
+    private String name;
+    private String password;
 
     public UserEntityDTO(Long id, String name, String password) {
         this.id = id;

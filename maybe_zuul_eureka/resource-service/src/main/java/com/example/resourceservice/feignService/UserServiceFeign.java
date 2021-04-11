@@ -1,27 +1,26 @@
 package com.example.resourceservice.feignService;
 
-import com.example.resourceservice.dtos.UserDetailsDTO;
+import com.example.resourceservice.dtos.UserEntityDTO;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.ws.rs.Path;
 import java.util.List;
+import java.util.Optional;
 
 @FeignClient(name = "user-service")
 public interface UserServiceFeign {
 
-    @GetMapping("/user/id={id}")
-    public UserDetailsDTO getUserById(@PathVariable Long id);
+    @GetMapping("/api/getAll")
+    public List<UserEntityDTO> getUsers();
 
-    @GetMapping("/user/name={name}")
-    public UserDetailsDTO getUserByName(@PathVariable String name);
+    @GetMapping("/api/getOne/{id}")
+    public Optional<UserEntityDTO> getUserById(@PathVariable Long id);
 
-    @PostMapping("/user/register/id={id}/name={name}/password={password}")
-    public HttpStatus registerUser(@PathVariable Long id, @PathVariable String name, @PathVariable String password);
+    @PostMapping("/api/register")
+    public boolean registerUser(@RequestBody UserEntityDTO user);
 }
 
 /*

@@ -10,13 +10,13 @@ public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    Long id;
+    private Long id;
 
     @Column(name = "name")
-    String name;
+    private String name;
 
     @Column(name = "password")
-    String password;
+    private String password;
 
     public UserEntity() {
 

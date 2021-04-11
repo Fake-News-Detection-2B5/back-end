@@ -1,5 +1,5 @@
 server:
-  port: 8087
+  port: 8662
 
 spring:
   application:
@@ -9,6 +9,10 @@ eureka:
   client:
     registerWithEureka: true
     fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:8661/eureka
+  instance:
+    hostname: localhost
 
 zuul:
   host:

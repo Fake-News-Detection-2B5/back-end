@@ -8,10 +8,10 @@ spring:
     hibernate:
       ddl-auto: update
   datasource:
-    url: jdbc:mysql://localhost/test_project_db
+    url: jdbc:postgresql://localhost:5433/users
     username:
     password:
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    driver-class-name: org.postgresql.Driver
     hikari:
       minimum-idle: 10
       idle-timeout: 10000

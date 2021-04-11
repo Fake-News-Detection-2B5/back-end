@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/api")
 public class UserController {
@@ -13,27 +16,23 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    // GET, POST, DELETE, UPDATE (modify)
-
-    @GetMapping("/user/id={id}")
-    public UserEntityDTO getUserById(@PathVariable Long id) {
-        return userService.getById(id);
+    @GetMapping("/getAll")
+    public List<UserEntityDTO> getUsers() {
+        return userService.getUsers();
     }
 
-    @GetMapping("/user/name={name}")
-    public UserEntityDTO getUserByName(@PathVariable String name) {
-        return userService.getByName(name);
+    @GetMapping("/getOne/{id}")
+    public Optional<UserEntityDTO> getUserById(@PathVariable Long id) {
+        return userService.getUserById(id);
     }
 
-    @PostMapping("/user/register/id={id}/name={name}/password={password}")
-    public HttpStatus registerUser(@PathVariable Long id, @PathVariable String name, @PathVariable String password) {
-        userService.register(new UserEntityDTO(id, name, password));
-        return HttpStatus.OK;
+    @PostMapping("/register")
+    public boolean registerUser(@RequestBody UserEntityDTO user) {
+        return userService.registerUser(user);
     }
 
-    @PutMapping("/user/modify/new_password={password}")
-    public HttpStatus modifyUserPassword(@PathVariable String password) {
-        // TO BE IMPLEMENTEDDD LOOOL
-        return HttpStatus.OK;
+    @DeleteMapping("/deleteAll")
+    public boolean deleteAllUsers() {
+        return userService.deleteAllUsers();
     }
 }
