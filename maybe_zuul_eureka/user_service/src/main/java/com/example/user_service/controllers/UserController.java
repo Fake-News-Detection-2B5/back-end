@@ -1,6 +1,6 @@
 package com.example.user_service.controllers;
 
-import com.example.user_service.dtos.UserEntityDTO;
+import com.example.user_service.entities.UserEntity;
 import com.example.user_service.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,17 +17,17 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/getAll")
-    public List<UserEntityDTO> getUsers() {
+    public List<UserEntity> getUsers() {
         return userService.getUsers();
     }
 
     @GetMapping("/getOne/{id}")
-    public Optional<UserEntityDTO> getUserById(@PathVariable Long id) {
+    public Optional<UserEntity> getUserById(@PathVariable Long id) {
         return userService.getUserById(id);
     }
 
     @PostMapping("/register")
-    public boolean registerUser(@RequestBody UserEntityDTO user) {
+    public boolean registerUser(@RequestBody UserEntity user) {
         return userService.registerUser(user);
     }
 

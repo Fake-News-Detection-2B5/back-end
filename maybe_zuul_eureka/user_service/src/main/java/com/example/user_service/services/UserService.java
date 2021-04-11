@@ -1,6 +1,5 @@
 package com.example.user_service.services;
 
-import com.example.user_service.dtos.UserEntityDTO;
 import com.example.user_service.entities.UserEntity;
 import com.example.user_service.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,19 +23,21 @@ public class UserService {
     }
 
 
-    public List<UserEntityDTO> getUsers() {
-        return userRepository.findAll().stream()
-                .map(u -> new UserEntityDTO(u.getId(), u.getName(), u.getPassword()))
-                .collect(Collectors.toList());
+    public List<UserEntity> getUsers() {
+        return userRepository.findAll();
+//        .stream()
+//                .map(u -> new UserEntityDTO(u.getId(), u.getName(), u.getPassword()))
+//                .collect(Collectors.toList());
     }
 
-    public Optional<UserEntityDTO> getUserById(Long id) {
-        return userRepository.findById(id).map(u -> new UserEntityDTO(u.getId(), u.getName(), u.getPassword()));
+    public Optional<UserEntity> getUserById(Long id) {
+        return userRepository.findById(id);
+//        .map(u -> new UserEntityDTO(u.getId(), u.getName(), u.getPassword()))
     }
 
-    public boolean registerUser(UserEntityDTO user) {
+    public boolean registerUser(UserEntity user) {
         try {
-            userRepository.save(new UserEntity(user));
+            userRepository.save(user);
             return true;
         } catch (Exception e) {
             return false;

@@ -1,6 +1,5 @@
 package com.example.user_service.entities;
 
-import com.example.user_service.dtos.UserEntityDTO;
 
 import javax.persistence.*;
 
@@ -20,12 +19,6 @@ public class UserEntity {
 
     public UserEntity() {
 
-    }
-
-    public UserEntity(UserEntityDTO userEntityDTO) {
-        this.id = userEntityDTO.getId();
-        this.name = userEntityDTO.getName();
-        this.name = userEntityDTO.getPassword();
     }
 
     public Long getId() {
