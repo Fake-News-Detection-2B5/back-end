@@ -1,0 +1,30 @@
+server:
+  port: 8183
+
+spring:
+  application:
+    name: user-service
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+  datasource:
+    url: jdbc:postgresql://localhost:5433/users
+    username:
+    password:
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      minimum-idle: 10
+      idle-timeout: 10000
+      maximumPoolSize: 30
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8661/eureka
+  instance:
+    hostname: localhost
+
+
+
