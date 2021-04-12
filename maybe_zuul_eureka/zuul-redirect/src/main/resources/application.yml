@@ -1,18 +1,41 @@
-server:
-  port: 8662
-
+#server:
+#  port: 8662
+#
+#spring:
+#  application:
+#    name: gateway-service
+#
+#eureka:
+#  client:
+#    registerWithEureka: true
+#    fetchRegistry: true
+#    serviceUrl:
+#      defaultZone: http://localhost:8661/eureka
+#  instance:
+#    hostname: localhost
 spring:
   application:
-    name: gateway-service
+    name: gateway
+  cloud:
+    discovery:
+      enabled: true
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+
+server:
+  port: 8081
 
 eureka:
   client:
-    registerWithEureka: true
-    fetchRegistry: true
+    fetch-registry: true
+    register-with-eureka: true
+    healthcheck:
+      enabled: true
     serviceUrl:
-      defaultZone: http://localhost:8661/eureka
-  instance:
-    hostname: localhost
+      defaultZone: https://backend-fake-news-detection.herokuapp.com/eureka
 
 zuul:
   host:
