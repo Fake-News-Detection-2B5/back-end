@@ -4,6 +4,11 @@ server:
 spring:
   application:
     name: gateway-service
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://gmatei.eu.auth0.com/
 
 eureka:
   client:
@@ -24,3 +29,6 @@ zuul:
       path: /user/**
       serviceId: user-service
       stripPrefix: true
+
+auth0:
+  audience: https://main-api.com/
