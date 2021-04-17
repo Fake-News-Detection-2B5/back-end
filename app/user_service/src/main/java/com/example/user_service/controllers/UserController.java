@@ -9,40 +9,40 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/public")
+@RequestMapping("/api")
 @CrossOrigin(origins = "*")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @GetMapping("/getAll")
+    @GetMapping("/private/getAll")
     public List<UserEntity> getUsers() {
         return userService.getUsers();
     }
 
-    @GetMapping("/get/{id}")
+    @GetMapping("/private/get/{id}")
     public Optional<UserEntity> getUserById(@PathVariable Long id) {
         return userService.getUserById(id);
     }
 
-    @PostMapping("/register")
+    @PostMapping("/public/register")
     public boolean registerUser(@RequestBody UserEntity user) {
         return userService.registerUser(user);
     }
 
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/private/delete/{id}")
     public boolean deleteUser(@PathVariable Long id) {
         return userService.deleteUser(id);
     }
 
-    @DeleteMapping("/deleteAll")
+    @DeleteMapping("/private/deleteAll")
     public boolean deleteAllUsers() {
         return userService.deleteAllUsers();
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/private/update/{id}")
     public boolean updateUser(@PathVariable Long id, @RequestBody UserEntity user) {
         return userService.updateUser(id, user);
     }
