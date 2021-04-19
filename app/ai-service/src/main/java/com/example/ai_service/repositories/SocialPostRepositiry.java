@@ -1,6 +1,6 @@
-package com.examlpe.ai_service.repository;
+package com.example.ai_service.repository;
 
-import org.com.example.ai_service.entities.SocialPostEntity;
+import com.example.ai_service.entities.SocialPostEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
