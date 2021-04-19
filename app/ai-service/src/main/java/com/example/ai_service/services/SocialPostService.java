@@ -2,7 +2,7 @@ package com.example.ai_service.services;
 
 import com.example.user_service.entities.SocialPostEntity;
 import com.example.user_service.repositories.SocialPostRepository;
-import org.springframework.beans.factory.annottion.Autowired;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.io.BufferedReader;
@@ -19,7 +19,7 @@ public class SocialPostService{
         this.socialPostRepository = socialPostRepository;
     }
 
-    public string getScore(Long id){
+    public static String getScore(Long id) throws IOException{
         SocialPostEntity sp = socialPostRepository.findById(id);
 
         if(checkIfItHasScrore(sp)){
@@ -29,22 +29,26 @@ public class SocialPostService{
         }
     }
 
-    private string calculateScore(sp){
+    private static String calculateScore(SocialPostRepository sp) throws IOException{
         String score = runPythonCalculation(sp.getUrl());
         socialPostRepository.update(sp.getUrl(), score , sp.getId());
         return score;
     }
 
-    private String runPythonCalculation(String url){
+    private static String runPythonCalculation(String url) throws IOException{
         
-        Process p = Runtime.getRuntime().exec("python3 scor1.py " + url);
-        BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
-        String score = in.readLine();
+        Process p1 = Runtime.getRuntime().exec("python3 scor1.py " + url);
+        BufferedReader in1 = new BufferedReader(new InputStreamReader(p1.getInputStream()));
+        String score1 = in1.readLine();
+        
+        Process p2 = Runtime.getRuntime().exec("python3 scor2.py " + url);
+        BufferedReader in2 = new BufferedReader(new InputStreamReader(p2.getInputStream()));
+        String score2 = in2.readLine();
 
-        return score;
+        return mergeScore(score1, score2);
     }
 
-    private boolean checkIfItHasScrore(SocialPostEntity sp){
+    private static boolean checkIfItHasScrore(SocialPostEntity sp){
         return sp.getScore() != null;
     }
 
