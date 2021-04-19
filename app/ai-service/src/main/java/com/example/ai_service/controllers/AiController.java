@@ -14,7 +14,7 @@ public class AiController{
     public SocialPostService socialPostService;
 
     @GetMapping("/ai/{socialPostId}/score")
-    public String getSocialPostScore(@PathVariable Long id){
+    public String getSocialPostScore(@PathVariable Long id) throws IOException{
         //return true/false/partial as string;
         return socialPostService.getScore(id);
     }
