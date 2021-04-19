@@ -47,6 +47,38 @@ public class SocialPostService{
 
         return mergeScore(score1, score2);
     }
+    
+    private static String mergeScore(String s1, String s2){
+        /* false(5), true(4), partialFalse(12)
+        if
+        * T T => T
+        * T F => PF
+        * F F => F
+        * PF T => PF
+        * PF F => F
+        * PF PF => PF
+        * */
+        int l1 = s1.length();
+        int l2 = s2.length();
+
+        if (l1 == 4 && l2 == 4) //true and true
+            return "True";
+
+        if ((l1 == 4 && l2 == 5) || (l1 == 5 && l2 == 4)) //true and false
+            return "Partially false";
+
+        if(l1 == 5 && l2 == 5) //false and false
+            return "False";
+
+        if ((l1 == 12 && l2 == 4) || (l1 == 4 && l2 == 12)) //partialFalse and true
+            return "Partially false";
+
+        if ((l1 == 12 && l2 == 5) || (l1 == 5 && l2 == 12)) //partialFalse and false
+            return "False";
+
+        //partialFalse and PartialFalse
+        return "Partially False";
+    }
 
     private static boolean checkIfItHasScrore(SocialPostEntity sp){
         return sp.getScore() != null;
