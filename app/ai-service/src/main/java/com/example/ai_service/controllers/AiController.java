@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("api")
 @CrossOrigin(origins = "*")
 public class AiController{
 
@@ -14,7 +14,7 @@ public class AiController{
     public SocialPostService socialPostService;
 
     @GetMapping("/ai/{socialPostId}/score")
-    public string getSocualPostScore(@PathVariable Long id){
+    public String getSocualPostScore(@PathVariable Long id){
         //return true/false/partial as string;
         return socialPostService.getScore(id);
     }
