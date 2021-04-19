@@ -47,9 +47,10 @@ public class SocialPostEntity{
     }
 
     public void setId(Long id) {
+        this.id = id;
     }
 
-    Override
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof SocialPostEntity)) return false;
