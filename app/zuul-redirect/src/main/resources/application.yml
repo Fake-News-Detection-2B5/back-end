@@ -8,7 +8,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: https://fake-news-backend.eu.auth0.com/
+          issuer-uri: https://gmatei.eu.auth0.com/
 
 eureka:
   client:
@@ -31,6 +31,6 @@ zuul:
       stripPrefix: true
 
 auth0:
-  audience: https://backend-fakenews/api
+  audience: https://fake-news-api.example.com
 
 
