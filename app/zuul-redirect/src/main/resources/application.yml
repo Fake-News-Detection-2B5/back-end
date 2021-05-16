@@ -27,8 +27,9 @@ zuul:
   routes:
     user-service:
       path: /user/**
-      serviceId: user-service
-      stripPrefix: true
+#      serviceId: user-service
+#      stripPrefix: true
+      url: http://localhost:8183/
 
 auth0:
   audience: https://fake-news-api.example.com
